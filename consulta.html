@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta</title>
+    <link rel="stylesheet" href="css/consulta.css">
+</head>
+<body>
+    <p>A consulta deve ser copiada e colocada em um SGBD:</p>
+    <a href="index.html">Voltar</a>
+
+    <div class="consulta">
+
+        <div class="parte1">
+                    with estoque2001 as <br>
+        (<br>
+            select<br>
+                est.codprod as codigoprod,
+                sum(est.estoque) as estoque
+            from TGFEST est <br>
+            where <br>
+                est.codlocal = 2001
+            and
+                est.CODEMP = 4 <br>
+            group BY <br>
+                est.CODPROD <br>
+        ),<br>
+        estoque1004 as <br>
+        (<br>
+            select
+                est.codprod as codigoprod,
+                sum(est.estoque) as estoque
+            from TGFEST est <br>
+            where <br>
+                est.codlocal = 1004
+            and
+                est.CODEMP = 4 <br>
+            group BY <br>
+                est.CODPROD 
+        ), <br>
+        estoque2002 as <br>
+        (<br>
+        select
+                est.codprod as codigoprod,
+                sum(est.estoque) as estoque
+            from TGFEST est<br> 
+            where <br>
+                est.codlocal = 2002
+            and
+                est.CODEMP = 4
+            group BY <br>
+                est.CODPROD<br> 
+        ),<br>
+        estoque2003 as <br>
+        (<br>
+            select
+                est.codprod as codigoprod,
+                sum(est.estoque) as estoque
+            from TGFEST est<br> 
+            where <br>
+                est.codlocal = 2003
+            and
+                est.CODEMP = 4
+            group BY <br>
+                est.CODPROD<br> 
+        ),<br>
+        estoque2008 as<br> 
+        (<br>
+                select
+                est.codprod as codigoprod,
+                sum(est.estoque) as estoque
+            from TGFEST est<br> 
+            where <br>
+                est.codlocal = 2008
+            and
+                est.CODEMP = 4<br>
+            group BY <br>
+                est.CODPROD  
+        )<br> 
+        select <br>
+            cast(dataContagem as date) as dataContagem, <br>
+            baratucha.codproduto,<br>
+            baratucha.descricao,<br>
+            baratucha.grupo,<br>
+            baratucha.estoqueCD,<br>
+            baratucha.EstoqueTransitorio,<br>
+            baratucha.EstoqueAvaria,<br>
+            baratucha.EstoqueAvariaCd,<br>
+            baratucha.EstoqueECM,<br>
+            (baratucha.EstoqueAvaria + baratucha.EstoqueAvariaCd + baratucha.estoqueCD + baratucha.EstoqueTransitorio + baratucha.estoqueECM ) as EstoqueGeral<br>
+        from<br>
+            (select<br>
+                GETUTCDATE() as dataContagem, 
+                pro.codprod as codproduto,<br>
+                pro.COMPLDESC as descricao,<br>
+                g3.DESCRGRUPOPROD as grupo,<br>
+                case <br>
+                    when s2001.estoque is null then 0<br>
+                    else s2001.estoque<br>
+                end as estoqueCD,<br>
+                case <br>
+                    when s1004.estoque is null then 0<br>
+                    else s1004.estoque<br>
+                end as EstoqueTransitorio,<br>
+                case <br>
+                    when s2002.estoque is null then 0<br>
+                    else s2002.estoque<br>
+                end as EstoqueAvaria,<br>
+                case <br>
+                    when s2003.estoque is null then 0<br>
+                    else s2003.estoque<br>
+                end as EstoqueAvariaCd,<br>
+                case <br>
+                    when s2008.estoque is null then 0<br>
+                    else s2008.estoque <br>
+                end as estoqueECM<br>
+            from tgfpro pro<br>
+            left join estoque2001 s2001 on<br> 
+                s2001.codigoprod = pro.CODPROD<br>
+            left join estoque1004 s1004 on <br>
+                s1004.codigoprod = pro.CODPROD <br>
+            left join estoque2002 s2002 on   <br>
+                s2002.codigoprod = pro.CODPROD <br>
+            left join estoque2003 s2003 on  <br>
+                s2003.codigoprod = pro.CODPROD<br>
+            left join estoque2008 s2008 on<br>
+                s2008.codigoprod = pro.codprod<br>
+            inner join tgfgru g  on <br>
+                pro.codgrupoprod = g.codgrupoprod<br>
+            inner join tgfgru g2 on <br>
+                g2.CODGRUPOPROD = g.CODGRUPAI<br>
+            inner join tgfgru g3 on <br>
+                g3.CODGRUPOPROD = g2.CODGRUPAI<br>
+            where <br>
+                pro.USOPROD = 'R'<br>
+        )baratucha<br>
+        --where grupo = 'TELEFONIA' -- FILTRO ENTRE ASPAS PARA O GRUPODESEJADO ()<br>
+        order by <br>
+            baratucha.codproduto;<br>
+
+                </div>
+
+
+
+
+
+
+
+    </div>
+    
+</body>
+</html>
