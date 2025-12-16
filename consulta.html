@@ -83,6 +83,7 @@
             baratucha.codproduto,<br>
             baratucha.descricao,<br>
             baratucha.grupo,<br>
+            baratucha.marca , <br>
             baratucha.estoqueCD,<br>
             baratucha.EstoqueTransitorio,<br>
             baratucha.EstoqueAvaria,<br>
@@ -95,6 +96,7 @@
                 pro.codprod as codproduto,<br>
                 pro.COMPLDESC as descricao,<br>
                 g3.DESCRGRUPOPROD as grupo,<br>
+                pro.marca as marca, <br>
                 case <br>
                     when s2001.estoque is null then 0<br>
                     else s2001.estoque<br>
