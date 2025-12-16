@@ -135,11 +135,12 @@
             where <br>
                 pro.USOPROD = 'R'<br>
         )baratucha<br>
-        --where grupo = 'TELEFONIA' -- FILTRO ENTRE ASPAS PARA O GRUPODESEJADO ()<br>
+        where grupo = 'TELEFONIA' -- FILTRO ENTRE ASPAS PARA O GRUPODESEJADO ()<br>
+        AND baratucha.marca = 'LG' -- FILTRO PARA A MARCA DO PRODUTO COLOCAR ENTRE AS ASPAS<br>
         AND <br>
 	        (baratucha.estoqueCD <> 0 OR baratucha.EstoqueTransitorio <> 0 OR baratucha.EstoqueAvaria <> 0 OR baratucha.EstoqueAvariaCd <> 0 OR baratucha.EstoqueECM <> 0) <br>
         order by <br>
-            baratucha.codproduto;<br>
+            baratucha.codproduto; <br>
 
                 </div>
 
