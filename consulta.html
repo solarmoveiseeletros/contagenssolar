@@ -90,7 +90,7 @@
             baratucha.EstoqueAvaria,<br>
             baratucha.EstoqueAvariaCd,<br>
             baratucha.EstoqueECM,<br>
-            (baratucha.EstoqueAvaria + baratucha.EstoqueAvariaCd + baratucha.estoqueCD + baratucha.EstoqueTransitorio + baratucha.estoqueECM ) as EstoqueGeral<br>
+            (baratucha.EstoqueAvaria + baratucha.estoqueCD + baratucha.EstoqueTransitorio + baratucha.estoqueECM ) as EstoqueGeral<br>
         from<br>
             (select<br>
                 GETUTCDATE() as dataContagem, 
